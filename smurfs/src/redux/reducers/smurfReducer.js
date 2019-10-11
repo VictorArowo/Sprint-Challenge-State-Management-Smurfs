@@ -6,7 +6,10 @@ import {
   POST_DATA_START,
   POST_DATA_SUCCESS,
   POST_DATA_FAIL,
-  EDIT_SMURF
+  EDIT_SMURF,
+  DELETE_DATA_START,
+  DELETE_DATA_SUCCESS,
+  DELETE_DATA_FAIL
 } from '../types';
 
 const initialState = {
@@ -75,6 +78,26 @@ const smurfReducer = (state = initialState, action) => {
           height: ''
         },
         isEditing: false
+      };
+    case DELETE_DATA_START:
+      return {
+        ...state,
+        loading: true,
+        error: {}
+      };
+
+    case DELETE_DATA_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        loading: false
+      };
+
+    case DELETE_DATA_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
       };
 
     case INPUT_CHANGE:

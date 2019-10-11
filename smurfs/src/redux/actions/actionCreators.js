@@ -8,7 +8,10 @@ import {
   POST_DATA_SUCCESS,
   POST_DATA_FAIL,
   INPUT_CHANGE,
-  EDIT_SMURF
+  EDIT_SMURF,
+  DELETE_DATA_START,
+  DELETE_DATA_SUCCESS,
+  DELETE_DATA_FAIL
 } from '../types';
 
 export const getData = () => dispatch => {
@@ -47,6 +50,18 @@ export const addSmurf = () => dispatch => {
         dispatch({ type: POST_DATA_FAIL, payload: err });
       });
   }
+};
+
+export const deleteSmurf = id => dispatch => {
+  dispatch({ type: DELETE_DATA_START });
+  axios
+    .delete(`/smurfs/${id}`)
+    .then(res => {
+      dispatch({ type: DELETE_DATA_SUCCESS, payload: res.data });
+    })
+    .catch(err => {
+      dispatch({ type: DELETE_DATA_FAIL, payload: err });
+    });
 };
 
 export const editSmurf = id => {
