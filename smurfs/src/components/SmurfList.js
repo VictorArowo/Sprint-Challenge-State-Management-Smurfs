@@ -8,7 +8,7 @@ const SmurfList = ({ getData, data }) => {
     getData();
   }, []);
 
-  return data.map(smurf => <Smurf data={smurf} />);
+  return data.map(smurf => <Smurf key={smurf.id} data={smurf} />);
 };
 
 const mapStateToProps = state => state.smurfs;

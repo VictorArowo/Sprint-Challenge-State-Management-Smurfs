@@ -2,13 +2,24 @@ import {
   FETCH_DATA_START,
   FETCH_DATA_SUCCESS,
   FETCH_DATA_FAIL,
-  SET_DATE
+  INPUT_CHANGE,
+  POST_DATA_START,
+  POST_DATA_SUCCESS,
+  POST_DATA_FAIL,
+  EDIT_SMURF
 } from '../types';
 
 const initialState = {
   data: [],
   errors: {},
-  loading: false
+  loading: false,
+  smurfForm: {
+    name: '',
+    age: '',
+    height: ''
+  },
+  isEditing: false,
+  editingId: null
 };
 
 const smurfReducer = (state = initialState, action) => {
@@ -32,6 +43,59 @@ const smurfReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload
+      };
+    case POST_DATA_START:
+      return {
+        ...state,
+        loading: true,
+        error: {}
+      };
+
+    case POST_DATA_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+        loading: false,
+        smurfForm: {
+          name: '',
+          age: '',
+          height: ''
+        },
+        isEditing: false
+      };
+
+    case POST_DATA_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        smurfForm: {
+          name: '',
+          age: '',
+          height: ''
+        },
+        isEditing: false
+      };
+
+    case INPUT_CHANGE:
+      return {
+        ...state,
+        smurfForm: {
+          ...state.smurfForm,
+          [action.payload.name]: action.payload.value
+        }
+      };
+
+    case EDIT_SMURF:
+      return {
+        ...state,
+        smurfForm: {
+          name: action.payload.name,
+          age: action.payload.age,
+          height: action.payload.height
+        },
+        editingId: action.payload.id,
+        isEditing: true
       };
 
     default:
